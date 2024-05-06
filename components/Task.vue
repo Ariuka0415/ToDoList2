@@ -18,7 +18,7 @@
               v-model="item.updatedText"
               @blur="updateItem(index)"
             />
-            <span v-else >{{ item.text }}</span>
+            <span v-else>{{ item.text }}</span>
           </div>
           <div>
             <button @click="deleteItem(index)" class="remove">
@@ -42,6 +42,8 @@
 </template>
 
 <script setup>
+// const previousValue = localStorage.text || 0;
+
 const text = ref("");
 
 const list = ref([]);
@@ -59,6 +61,8 @@ const onSubmit = (value = "aav") => {
       list.value.push({
         text: value,
       });
+      localStorage.setItem("items:", text.value);
+      console.log(localStorage);
     }
   }
   text.value = "";
