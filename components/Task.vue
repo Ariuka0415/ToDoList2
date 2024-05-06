@@ -1,31 +1,39 @@
 <template>
-  <!-- Remove inline css -->
   <div class="main">
-    <form id="form" @submit.prevent="onSubmit(text)">
-      <!-- input width deer anhaarnaa -->
-      <~
+    <form class="element" @submit.prevent="onSubmit(text)">
+      <input
         v-model="text"
         type="text"
         id="text"
         placeholder="Enter your task...."
       />
     </form>
-    <section>
+    <section class="element">
       <ul class="lists">
         <li v-for="(item, index) in list" :key="item.text" class="ul-list">
           <div>
             <input type="checkbox" class="custom-checkbox" />
-            {{ item.text }}
-          </div>
-
-          <!-- button ii css anhaarnaa -->
-          <button @click="deleteItem(index)" class="remove">
-            <!-- SVG icon oruulj iree -->
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUHE5orhlcix_eBdGWPC993wtY_IONYHhb4WAOJUbFfg&s"
-              alt=""
+            <input
+              v-if="item.editing"
+              v-model="item.updatedText"
+              @blur="updateItem(index)"
             />
-          </button>
+            <span v-else >{{ item.text }}</span>
+          </div>
+          <div>
+            <button @click="deleteItem(index)" class="remove">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUHE5orhlcix_eBdGWPC993wtY_IONYHhb4WAOJUbFfg&s"
+                alt=""
+              />
+            </button>
+            <button @click="editItem(index)" class="remove">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvr2HodSelXZZK8FAB9hhO0ShvUazNWWXERbL407ccFA&s"
+                alt=""
+              />
+            </button>
+          </div>
         </li>
       </ul>
     </section>
@@ -54,13 +62,29 @@ const onSubmit = (value = "aav") => {
     }
   }
   text.value = "";
-
   //   list ruu add hiisnii daraa text valueg reset
 };
 // deleteItem: check param
 const deleteItem = (index) => {
   list.value.splice(index, 1);
   console.log(index);
+};
+
+// UpdateItem
+// const updateItem = (index) => {
+//   const newText = list.value[index].updatedText.trim();
+//   if (!newText) {
+//     alert("Task cannot be empty");
+//   } else {
+//     list.value[index].text = newText;
+//     list.value[index].editing = false;
+//   }
+// };
+
+const editItem = (index) => {
+  // Set editing status to true and copy task text to updatedText for editing
+  list.value[index].editing = true;
+  list.value[index].updatedText = list.value[index].text;
 };
 </script>
 
@@ -113,13 +137,12 @@ input {
   cursor: pointer;
   padding-right: 20px !important;
 }
-.remove:hover {
-  color: #cebae7;
-}
+
 .main {
   background: #fff;
   width: 50%;
   margin: auto;
+  position: relative;
 }
 img {
   width: 20px;
@@ -143,5 +166,14 @@ img {
   -webkit-appearance: none;
   -moz-appearance: none;
   background-color: #5e388d;
+}
+
+#button {
+  float: right !important;
+}
+@media (max-width: 600px) {
+  .main {
+    font-size: 20px;
+  }
 }
 </style>
