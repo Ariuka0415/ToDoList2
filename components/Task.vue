@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main1">
     <form class="element" @submit.prevent="onSubmit(text)">
       <input
         v-model="text"
@@ -42,17 +42,14 @@
 </template>
 
 <script setup>
-// const previousValue = localStorage.text || 0;
 
 const text = ref("");
 
 const list = ref([]);
 
 const onSubmit = (value = "aav") => {
-  // value hooson bvl list ruu push hiihgue
-  // value bvl list dotor adilhan utga shalganaa
   if (!value) {
-    alert("ajilgui novsh!");
+    alert("Хоосон байна! ");
   } else {
     const existingvalue = list.value.find((val) => val.text === value);
     if (existingvalue) {
@@ -61,38 +58,47 @@ const onSubmit = (value = "aav") => {
       list.value.push({
         text: value,
       });
-      localStorage.setItem("items:", text.value);
-      console.log(localStorage);
+      localStorage.setItem("tasks", JSON.stringify(list.value));
     }
   }
   text.value = "";
-  //   list ruu add hiisnii daraa text valueg reset
 };
+
+onMounted(() => {
+  list.value = JSON.parse(localStorage.getItem("tasks"));
+});
 // deleteItem: check param
 const deleteItem = (index) => {
   list.value.splice(index, 1);
-  console.log(index);
+  localStorage.setItem("tasks", JSON.stringify(list.value));
 };
 
 // UpdateItem
-// const updateItem = (index) => {
-//   const newText = list.value[index].updatedText.trim();
-//   if (!newText) {
-//     alert("Task cannot be empty");
-//   } else {
-//     list.value[index].text = newText;
-//     list.value[index].editing = false;
-//   }
-// };
+const updateItem = (index) => {
+  const newText = list.value[index].updatedText.trim();
+  if (!newText) {
+    alert("Task cannot be empty");
+  } else {
+    list.value[index].text = newText;
+    list.value[index].editing = false;
+    localStorage.setItem("tasks", JSON.stringify(list.value));
+    alert("Updated!");
+  }
+};
 
 const editItem = (index) => {
-  // Set editing status to true and copy task text to updatedText for editing
   list.value[index].editing = true;
   list.value[index].updatedText = list.value[index].text;
 };
 </script>
 
 <style scoped>
+.main1 {
+  background: #fff;
+  width: 70%;
+  margin: auto;
+  margin-top: 80px;
+}
 .button {
   background: #ab7ae6;
   border-color: #ab7ae6;
@@ -103,6 +109,7 @@ const editItem = (index) => {
   transition: 0.3s;
   color: #fff;
   font-size: 19px;
+  margin-bottom: 30px !important;
 }
 
 ul li {
@@ -142,12 +149,6 @@ input {
   padding-right: 20px !important;
 }
 
-.main {
-  background: #fff;
-  width: 50%;
-  margin: auto;
-  position: relative;
-}
 img {
   width: 20px;
   height: 20px;
@@ -175,8 +176,9 @@ img {
 #button {
   float: right !important;
 }
+
 @media (max-width: 600px) {
-  .main {
+  .main1 {
     font-size: 20px;
   }
 }

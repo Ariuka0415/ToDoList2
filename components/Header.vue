@@ -7,13 +7,16 @@
 <style scoped>
 .header {
   background: #ab7ae6;
-  width: 50%;
+  width: 100%;
   margin: auto;
-  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 80px;
+  z-index: 1;
 }
 
 .headerText {
   color: #fff;
-  line-height: 70px;
 }
 </style>
