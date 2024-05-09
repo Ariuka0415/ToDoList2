@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <h1 class="headerText">Website todo</h1>
+    <h1>Website todo</h1>
   </div>
 </template>
 
@@ -9,14 +9,14 @@
   background: #ab7ae6;
   width: 100%;
   margin: auto;
-  position: fixed;
+  position: sticky;
   left: 0;
   top: 0;
-  height: 80px;
+  padding: 1rem;
   z-index: 1;
 }
 
-.headerText {
+.header h1 {
   color: #fff;
 }
 </style>

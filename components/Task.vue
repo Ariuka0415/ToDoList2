@@ -12,7 +12,12 @@
       <ul class="lists">
         <li v-for="(item, index) in list" :key="item.text" class="ul-list">
           <div>
-            <input type="checkbox" class="custom-checkbox" />
+            <input
+              type="checkbox"
+              class="custom-checkbox"
+              v-model="item.completed"
+              @change="saveTasks"
+            />
             <input
               v-if="item.editing"
               v-model="item.updatedText"
@@ -42,7 +47,6 @@
 </template>
 
 <script setup>
-
 const text = ref("");
 
 const list = ref([]);
@@ -65,8 +69,11 @@ const onSubmit = (value = "aav") => {
 };
 
 onMounted(() => {
-  list.value = JSON.parse(localStorage.getItem("tasks"));
+  let storedTasks = localStorage.getItem("tasks");
+
+  list.value = storedTasks ? JSON.parse(storedTasks) : [];
 });
+
 // deleteItem: check param
 const deleteItem = (index) => {
   list.value.splice(index, 1);
@@ -89,6 +96,10 @@ const updateItem = (index) => {
 const editItem = (index) => {
   list.value[index].editing = true;
   list.value[index].updatedText = list.value[index].text;
+};
+
+const saveTasks = () => {
+  localStorage.setItem("tasks", JSON.stringify(list.value));
 };
 </script>
 
